@@ -22,13 +22,11 @@ async function getLiz() {
   });
 }
 
-// liz = allValidLicenses.json()
-
 getLiz();
 
 // const liz = await getLiz().then(console.log(liz));
 
-// let a = {
+// {
 //   'LicenseObjects': [
 //     {
 //       'LicenseOwnersInfo': {
