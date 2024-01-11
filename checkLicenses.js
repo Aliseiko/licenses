@@ -1,11 +1,15 @@
 const fs = require('fs');
 const path = require('path');
 
-const loadFilePath = path.join(__dirname, 'resources/simpleLicensesArray.json');
+const loadFilePath = path.join(__dirname, 'resources/test.json');
 const checkedFilePath = path.join(__dirname, 'resources/checkedLicensesArray.json');
 
 const simpleLicensesJSON = fs.readFileSync(loadFilePath);
 const simpleLicensesArray = JSON.parse(simpleLicensesJSON);
+
+let success = 0;
+let fails = 0;
+
 
 async function checkLicense(licenseObj) {
   let response = await fetch(
@@ -16,13 +20,26 @@ async function checkLicense(licenseObj) {
     if (json['dto']) {
       licenseObj['dateExclude'] = json[0]['dto'];
     }
-    console.log(licenseObj['UNP'], licenseObj['status'], licenseObj['dateExclude']);
+    success++;
   } else {
+    fails++;
     console.log('Error HTTP: ' + response.status);
   }
 }
 
-checkLicense(simpleLicensesArray[2]);
+async function checkAllLicenses(licensesArray) {
+  const totalLicenses = licensesArray.length;
+  for (const [index, licenseObj] of licensesArray.entries()) {
+    await checkLicense(licenseObj);
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    console.log(`Done ${index + 1} of ${totalLicenses}. Success: ${success}. Failed: ${fails}.`);
+    if (index % 10 === 0 || index + 1 === totalLicenses) {
+      fs.writeFileSync(checkedFilePath, JSON.stringify(simpleLicensesArray));
+    }
+  }
+}
+
+checkAllLicenses(simpleLicensesArray);
 
 // [{
 //     "ngrn": 691990278,
