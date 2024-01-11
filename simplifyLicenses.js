@@ -1,31 +1,29 @@
 const fs = require('fs');
 const path = require('path');
 
-const filePath = path.join(__dirname, 'resources/simpleLicensesArray.json');
+const loadFilePath = path.join(__dirname, 'resources/allValidLicenses.json');
+const saveFilePath = path.join(__dirname, 'resources/simpleLicensesArray.json');
 
 function simplifyLicense(fullLicenseObject) {
   const licenseOwnersInfo = fullLicenseObject['LicenseObjects'][0]['LicenseOwnersInfo'];
   const obj = {
     'UNP': licenseOwnersInfo['UNP'],
-    'NameShort': licenseOwnersInfo['NameShort']
   };
+  if (licenseOwnersInfo['LicenseOwnerTypeCode'] === '1') {
+    obj['NameShort'] = licenseOwnersInfo['NameShort'];
+  }
   if (licenseOwnersInfo['LicenseOwnerTypeCode'] === '2') {
     obj['FIO'] = licenseOwnersInfo['Surname'] + ' ' + licenseOwnersInfo['Firstname'] + ' ' + licenseOwnersInfo['Middlename'];
   }
   return obj;
 }
 
-async function getLiz() {
-  return await fetch('https://dl-navigator.by/allValidLicenses.json').then(res => res.json()).then(fullLicensesArray => {
-    const simpleLicensesArray = fullLicensesArray.map(simplifyLicense);
-    fs.writeFileSync(filePath, JSON.stringify(simpleLicensesArray));
-  });
-}
+const fullLicensesJSON = fs.readFileSync(loadFilePath);
+const fullLicensesArray = JSON.parse(fullLicensesJSON);
+const simpleLicensesArray = fullLicensesArray.map(simplifyLicense);
+fs.writeFileSync(saveFilePath, JSON.stringify(simpleLicensesArray));
 
-getLiz();
-
-// const liz = await getLiz().then(console.log(liz));
-
+// LicenseObjects Example
 // {
 //   'LicenseObjects': [
 //     {
