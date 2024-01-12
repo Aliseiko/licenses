@@ -10,10 +10,16 @@ function simplifyLicense(fullLicenseObject) {
     'UNP': licenseOwnersInfo['UNP'],
   };
   if (licenseOwnersInfo['LicenseOwnerTypeCode'] === '1') {
-    obj['NameShort'] = licenseOwnersInfo['NameShort'];
-  }
-  if (licenseOwnersInfo['LicenseOwnerTypeCode'] === '2') {
+    obj['OrgName'] = licenseOwnersInfo['OrgName'];
+    obj['ownerType'] = 'ЮЛ';
+  } else if (licenseOwnersInfo['LicenseOwnerTypeCode'] === '2') {
     obj['FIO'] = licenseOwnersInfo['Surname'] + ' ' + licenseOwnersInfo['Firstname'] + ' ' + licenseOwnersInfo['Middlename'];
+    obj['ownerType'] = 'ИП';
+  } else if (licenseOwnersInfo['LicenseOwnerTypeCode'] === '6') {
+    obj['FIO'] = licenseOwnersInfo['Surname'] + ' ' + licenseOwnersInfo['Firstname'] + ' ' + licenseOwnersInfo['Middlename'];
+    obj['ownerType'] = 'ФЛ';
+  } else {
+    obj['ownerType'] = 'Неизвестно';
   }
   return obj;
 }
