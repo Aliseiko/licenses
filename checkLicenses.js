@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const loadFilePath = path.join(__dirname, 'resources/test.json');
+const loadFilePath = path.join(__dirname, 'resources/simpleLicensesArray.json');
 const checkedFilePath = path.join(__dirname, 'resources/checkedLicensesArray.json');
 
 const simpleLicensesJSON = fs.readFileSync(loadFilePath);
@@ -12,18 +12,20 @@ let fails = 0;
 
 
 async function checkLicense(licenseObj) {
-  let response = await fetch(
-    'http://egr.gov.by/api/v2/egr/getShortInfoByRegNum/' + licenseObj['UNP']);
-  if (response.ok) {
-    let json = await response.json();
-    licenseObj['status'] = json[0]['nsi00219']['vnsostk'];
-    if (json['dto']) {
-      licenseObj['dateExclude'] = json[0]['dto'];
+  try {
+    let response = await fetch(
+      'http://egr.gov.by/api/v2/egr/getShortInfoByRegNum/' + licenseObj['UNP']);
+    if (response.ok) {
+      let json = await response.json();
+      licenseObj['status'] = json[0]['nsi00219']['vnsostk'];
+      if (json['dto']) {
+        licenseObj['dateExclude'] = json[0]['dto'];
+      }
+      success++;
     }
-    success++;
-  } else {
+  } catch (e) {
     fails++;
-    console.log('Error HTTP: ' + response.status);
+    console.log(e);
   }
 }
 
@@ -33,7 +35,7 @@ async function checkAllLicenses(licensesArray) {
     await checkLicense(licenseObj);
     await new Promise(resolve => setTimeout(resolve, 1000));
     console.log(`Done ${index + 1} of ${totalLicenses}. Success: ${success}. Failed: ${fails}.`);
-    if (index % 10 === 0 || index + 1 === totalLicenses) {
+    if (index % 50 === 0 || index + 1 === totalLicenses) {
       fs.writeFileSync(checkedFilePath, JSON.stringify(simpleLicensesArray));
     }
   }
