@@ -18,7 +18,7 @@ async function checkLicense(licenseObj) {
     if (response.ok) {
       let json = await response.json();
       licenseObj['status'] = json[0]['nsi00219']['vnsostk'];
-      if (json['dto']) {
+      if (json[0]['dto']) {
         licenseObj['dateExclude'] = json[0]['dto'];
       }
       success++;
