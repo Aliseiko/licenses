@@ -1,8 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 
-const loadFilePath = path.join(__dirname, 'resources/simpleLicensesArray.json');
-const checkedFilePath = path.join(__dirname, 'resources/checkedLicensesArray.json');
+const loadFilePath = path.join(__dirname, 'resources/simpleLicensesArray12012024.json');
+const checkedFilePath = path.join(__dirname, 'resources/checkedLicensesArray12012024.json');
 
 const simpleLicensesJSON = fs.readFileSync(loadFilePath);
 const simpleLicensesArray = JSON.parse(simpleLicensesJSON);

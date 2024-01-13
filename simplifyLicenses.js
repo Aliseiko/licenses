@@ -1,8 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 
-const loadFilePath = path.join(__dirname, 'resources/allValidLicenses.json');
-const saveFilePath = path.join(__dirname, 'resources/simpleLicensesArray.json');
+const loadFilePath = path.join(__dirname, 'resources/allValidLicenses12012024.json');
+const saveFilePath = path.join(__dirname, 'resources/simpleLicensesArray12012024.json');
 
 function simplifyLicense(fullLicenseObject) {
   const licenseOwnersInfo = fullLicenseObject['LicenseObjects'][0]['LicenseOwnersInfo'];
