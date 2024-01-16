@@ -63,3 +63,26 @@
 //     }
 //   ]
 // };
+
+// ERL ID
+// {
+//   'count': 1,
+//   'page': 1,
+//   'pageSize': 10,
+//   'pageCount': 1,
+//   'items': [
+//     {
+//       'id': 105403,
+//       'generatedNumber': '13200000044681',
+//       'nameShort': 'СП "ВЕСТТРАНСЛАЙН" ООО',
+//       'name': 'Совместное белорусско-германское предприятие "ВЕСТТРАНСЛАЙН" общество с ограниченной ответственностью',
+//       'firstName': null,
+//       'surName': null,
+//       'middleName': null,
+//       'userId': '443585cb-9d55-4fe7-aa98-eae71f76b831',
+//       'user': {
+//         'username': 'Glembovski'
+//       }
+//     }
+//   ]
+// }
