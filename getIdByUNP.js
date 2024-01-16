@@ -1,9 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 
-const loadFilePath = path.join(__dirname, 'resources/reorgLicensesArray13012024.json');
-const checkedFilePath = path.join(__dirname, 'resources/reorgLicensesArrayWithId15012024.json');
-const failsFilePath = path.join(__dirname, 'resources/failedReorgLicensesArrayWithId15012024.json');
+const loadFilePath = path.join(__dirname, 'resources/egrLicensesArray13012024.json');
+const checkedFilePath = path.join(__dirname, 'resources/egrLicensesArrayWithId15012024.json');
+const failsFilePath = path.join(__dirname, 'resources/failedEgrLicensesArrayWithId15012024.json');
 
 const licensesArrayJSON = fs.readFileSync(loadFilePath);
 const licensesArray = JSON.parse(licensesArrayJSON);
