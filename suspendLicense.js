@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const loadFilePath = path.join(__dirname, 'resources/egrLicensesArrayWithId15012024.json');
+const saveFilePath = path.join(__dirname, 'resources/erlSuspendedLicenses18012024.json');
 const failsFilePath = path.join(__dirname, 'resources/failedErlSuspend18012024.json');
 
 const licensesArrayJSON = fs.readFileSync(loadFilePath);
@@ -34,8 +35,6 @@ async function suspendLicense(licenseObj) {
     'SuspensionDateStart': convertToGMT3(licenseObj['dateExclude']),
     'SuspensionDateEnd': null
   };
-  console.log(suspendData);
-  console.log(JSON.stringify(suspendData));
 
   try {
     let response = await fetch(
@@ -48,11 +47,9 @@ async function suspendLicense(licenseObj) {
         },
         body: JSON.stringify(suspendData)
       });
-    console.log(response);
     if (response.ok) {
       licenseObj['isSuspended'] = true;
       success++;
-      console.log(response);
     }
   } catch (e) {
     fails++;
@@ -62,5 +59,20 @@ async function suspendLicense(licenseObj) {
   }
 }
 
-suspendLicense(licensesArray[0]);
-// console.log(licensesArray[0]);
+async function suspendAllLicenses(licensesArray) {
+  const totalLicenses = licensesArray.length;
+
+  for (const [index, licenseObj] of licensesArray.entries()) {
+    if (!licenseObj['isSuspended']) {
+      await suspendLicense(licenseObj);
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+
+    console.log(`Done ${index + 1} of ${totalLicenses}. Success: ${success}. Failed: ${fails}.`);
+    if (index % 50 === 0 || index + 1 === totalLicenses) {
+      fs.writeFileSync(saveFilePath, JSON.stringify(licensesArray));
+    }
+  }
+}
+
+suspendAllLicenses(licensesArray);
