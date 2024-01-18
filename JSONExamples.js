@@ -86,3 +86,13 @@
 //     }
 //   ]
 // }
+
+// ERL body to suspend License
+// {
+//   'LicenseId': 93399,
+//   'ReModificationId': 4,
+//   'DecisionDate': '2012-09-17',
+//   'DecisionNumber': 'подпункт 1.1 пункта 1 статьи 39 Закона Республики Беларусь от 14.10.2022 № 213-З',
+//   'SuspensionDateStart': '2012-09-17',
+//   'SuspensionDateEnd': null
+// }
